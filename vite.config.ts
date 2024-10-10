@@ -1,27 +1,21 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
+import path from 'path'
 
 export default defineConfig({
+  root: path.resolve(__dirname, 'src'),
   plugins: [react()],
   
-  // If your app is served from a specific base path, update the base URL
-  base: '/', // Change this if deploying under a subdirectory (e.g., '/app/')
+  base: '/',
   
   build: {
-    rollupOptions: {
-      output: {
-        // Ensure that JS and assets are properly placed in the output directory
-        entryFileNames: 'assets/[name].js',
-        chunkFileNames: 'assets/[name].js',
-        assetFileNames: 'assets/[name].[ext]',
-      },
-    },
+    outDir: '../dist',
+    emptyOutDir: true,
   },
 
-  // Server configuration for Netlify
   server: {
     watch: {
-      usePolling: true, // Useful if you're running into issues with file watching in some environments
+      usePolling: true,
     },
   },
 })
