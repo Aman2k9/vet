@@ -1,37 +1,44 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Header from './components/Header'
 import Sidebar from './components/Sidebar'
 import Calendar from './components/Calendar'
 import PatientForm from './components/PatientForm'
 import { useAppContext } from './context/AppContext'
+import ContactForm from './components/ContactForm'
+import InvoiceForm from './components/InvoiceForm';
+import ProductForm from './components/ProductForm'; 
+import PaymentSummary from './components/PaymentSummary';
+
 import { Plus } from 'lucide-react'
 
 function App() {
-  const { selectedMenuItem, addPatient } = useAppContext()
-  const [showPatientForm, setShowPatientForm] = useState(false)
+  const { mainContent, addPatient } = useAppContext()
+  const [showPatientForm, setShowPatientForm] = React.useState(false)
 
   const renderContent = () => {
-    switch (selectedMenuItem) {
+    switch (mainContent) {
       case 'Dashboard':
         return <div className="p-4">Dashboard content goes here.</div>
-      case 'Contacts':
-        return <div className="p-4">Contacts content goes here.</div>
-      case 'Patients':
-        return <div className="p-4">Patients content goes here.</div>
       case 'Clinical':
         return <div className="p-4">Clinical content goes here.</div>
       case 'Financial':
-        return <div className="p-4">Financial content goes here.</div>
+        return <InvoiceForm />
       case 'Reporting':
-        return <div className="p-4">Reporting content goes here.</div>
+        return <PaymentSummary />
       case 'Admin':
-        return <div className="p-4">Admin content goes here.</div>
+        return <ProductForm />
       case 'Help':
         return <div className="p-4">Help content goes here.</div>
       case 'Calendar':
         return <Calendar />
+      case 'Contacts':
+        return <ContactForm /> 
+      case 'Patients':
+        return <PatientForm />   
+      case 'Invoices':
+        return <div className="p-4">Invoices content goes here.</div>
       default:
-        return <div className="p-4">Content for {selectedMenuItem} goes here.</div>
+        return <div className="p-4">Content for {mainContent} goes here.</div>
     }
   }
 
@@ -46,8 +53,8 @@ function App() {
         <Sidebar />
         <main className="flex-1 p-4">
           <div className="flex justify-between items-center mb-4">
-            <h1>{selectedMenuItem}</h1>
-            {selectedMenuItem === 'Patients' && (
+            <h1>{mainContent}</h1>
+            {mainContent === 'Patients' && (
               <button
                 onClick={() => setShowPatientForm(true)}
                 className="btn flex items-center"
